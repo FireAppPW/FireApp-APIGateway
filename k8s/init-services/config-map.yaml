@@ -66,6 +66,8 @@ data:
                 port-append: false  
                 proto-append: false
               routes:
+                - id: discovery-service
+                  uri: http://discovery-service.fireapp.svc.cluster.local:8761
                 - id: departments-service
                   uri: http://department-service.fireapp.svc.cluster.local:8080
                   predicates:
