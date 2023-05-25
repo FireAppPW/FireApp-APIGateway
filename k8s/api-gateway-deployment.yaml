@@ -37,6 +37,8 @@ spec:
                           exec:
                               command: ["sh", "-c", "sleep 10"]
                   resources:
+                      requests:
+                          memory: 256Mi
                       limits:
                           memory: 1Gi
                   ports:
