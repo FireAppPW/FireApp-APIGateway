@@ -71,6 +71,7 @@ jobs:
                   name: api-gateway
                   manifests: |
                       k8s/namespace.yaml
+                      k8s/init-services/config-map.yaml
                       k8s/init-services/api-gateway.yaml
                       k8s/api-gateway-deployment.yaml
                   images: ${{ env.REPOSITORY_PREFIX }}.azurecr.io/fireapp-api-gateway:latest

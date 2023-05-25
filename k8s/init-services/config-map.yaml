@@ -1,0 +1,72 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: fireapp-config
+    namespace: fireapp
+data:
+    application.yaml: |-
+        server:
+          shutdown: graceful
+          lifecycle:
+            timeout-per-shutdown-phase: 15
+          port: 8080
+          compression:
+            enabled: true
+            mime-types: application/json,text/css,application/javascript
+            min-response-size: 2048
+
+        # Logging
+        logging.level.org.springframework: DEBUG
+
+        # Metrics
+        management:
+          endpoint:
+            health:
+              probes:
+                enabled: true
+          health:
+            livenessState:
+              enabled: true
+            readinessState:
+              enabled: true
+            restart:
+              enabled: true
+            metrics:
+              enabled: true
+            prometheus:
+              enabled: true
+          endpoints:
+            web:
+              exposure:
+                include: '*'
+          metrics:
+            export:
+              prometheus:
+                enabled: true
+              wavefront:
+                enabled: true
+
+        department-service-id: http://department-service.fireapp.svc.cluster.local:8080
+
+        spring:
+          cloud:
+            kubernetes:
+              discovery:
+                enabled: true
+            loadbalancer:
+              ribbon:
+                enabled: false
+            gateway:
+              x-forwarded:  
+                enabled: true 
+                for-enabled: true 
+                proto-enabled: true 
+                host-append: false  
+                port-append: false  
+                proto-append: false
+              routes:
+                - id: departments-service
+                  uri: http://department-service.fireapp.svc.cluster.local:8080
+                  predicates:
+                    - Path=department**
