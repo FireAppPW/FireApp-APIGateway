@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+    labels:
+        app: gateway-example
+    name: gateway-example
+    namespace: default
+spec:
+    ports:
+        - name: "http"
+          protocol: TCP
+          port: 80
+          targetPort: 8080
+          nodePort: 31390
+    selector:
+        App: backend
+    type: LoadBalancer
+status:
+    loadBalancer: {}
